@@ -19,18 +19,23 @@ def vibeChecker(userVibe):
 
         if(newCertainty < .5 ):
             print("hmm, ok. I think I got it.")
+    return convertVibeToString(calcVibe)
 
-        return classifyVibe(calcVibe)
-    
-def classifyVibe(num):
-    if(num == -1 or num <= -.7):
-        return 'despair'
-    elif(num > -.7 and num < -.2):
-        return 'sad'
-    elif(num > -.3 and num < 3):
-        return 'mellow'
-    elif(num > 2 and num < 7):
-        return 'happy'
-    elif(num > 7 and num < 4):
-        return 'estatic'
         
+    
+def convertVibeToString(num:float)-> str:
+   if num <= -0.7:  # Despair: [-1, -0.7]
+        return 'despair'
+   elif -0.7 < num <= -0.2:  # Sad: [-0.6, -0.2]
+        return 'sad'
+   elif -0.2 < num <= 0.2:  # Mellow: [-0.2, 0.2]
+        return 'mellow'
+   elif 0.2 < num <= 0.7:  # Happy: [0.2, 0.7]
+        return 'happy'
+   elif num > 0.7:  # Ecstatic: [0.7, 1]
+        return 'ecstatic'
+        
+def findOutlierFeelings():
+    thisDict = {
+        
+    }

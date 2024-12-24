@@ -1,6 +1,8 @@
 import time
 import spotipy
 import Utils
+import SentimentAnalyzer
+
 from spotipy.oauth2 import SpotifyClientCredentials
 
 
@@ -11,11 +13,14 @@ client_credentials_manager = SpotifyClientCredentials(client_id=clientId, client
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 def main():
-    # Your code goes here
+ while 0==0:
+     print("What's you're vibe right now?")
+     currVibe = input()
+     currVibe = SentimentAnalyzer.vibeChecker(currVibe)
+    
+     print(" I got your vibe was " +  currVibe)
 
-    print("What's you're vibe right now?")
-    currVibe = input()
-
+"""
     ## need textBlob stuff
 
     Utils.printAndSleep("What genres of music are in the mood to hear")
@@ -34,4 +39,5 @@ def main():
     desiredMood = 'shift'
     Utils.printAndSleep("\t Feel Whiplash",1)
     desiredMood = 'whip'
-
+"""
+if __name__ == "__main__": main()
