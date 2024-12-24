@@ -10,19 +10,27 @@ def vibeChecker(userVibe):
     if(calcCertainty < .5):
         print("Can you expand more on your vibes.")
         print("Just a few words or a sentence will suffice")
-        clarfier = input()
-        clariBlob = TextBlob(clarifier + ' ' + userVibe)
-        calcVibe = clariBlob.polarity
         
-        if(calcVibe < .5 ):
-            print("hmm, ok")
-        calcC = clariBlob.subjectivity
+        clarifier = input()
+        clariBlob = TextBlob(clarifier + ' ' + userVibe)
+        
+        newCertainty = clariBlob.subjectivity
+        calcVibe = clariBlob.polarity
+
+        if(newCertainty < .5 ):
+            print("hmm, ok. I think I got it.")
+
         return classifyVibe(calcVibe)
     
 def classifyVibe(num):
-    if(num == -1 or num <= -7.):
-        return despair
-    elif(num > .8):
-
-        return
+    if(num == -1 or num <= -.7):
+        return 'despair'
+    elif(num > -.7 and num < -.2):
+        return 'sad'
+    elif(num > -.3 and num < 3):
+        return 'mellow'
+    elif(num > 2 and num < 7):
+        return 'happy'
+    elif(num > 7 and num < 4):
+        return 'estatic'
         
