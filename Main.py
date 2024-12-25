@@ -1,8 +1,8 @@
 import time as builtin_time
-import Utils
 import SentimentAnalyzer
 import SpotifyMethods
 import streamlit as st
+## to do handle outliers and pretty up with comments
 st.set_page_config(page_title="Vibe Checker", layout="centered")
 def main():
     # CSS for styling the container
@@ -84,7 +84,7 @@ if currVibe:
         # Create a selectbox for user to choose an option
         answer = st.selectbox(
             'Would you like to:',
-            ['Intensify Vibe', 'Keep Vibe Going', 'Balance Mood', 'Gradually Shift Mood', 'Feel Whiplash']
+            ['Intensify Vibe', 'Keep Vibe Going', 'Balance Mood', 'Shake Things Up A Little', 'Feel Whiplash']
         )
 
         # Handle the selected option only if answer is not None
@@ -129,7 +129,7 @@ if currVibe:
                         playListName, playlistUrl, =  SpotifyMethods.basicSearch("chill")
                         st.write("We think you'll like this playlist: " + playListName)
                         st.write(playlistUrl)
-                case 'Shake things up a little':
+                case 'Shake Things Up A Little':
                     if hasPreference:
                          if(currGoodVibes):
                             playListName, playlistUrl, =  SpotifyMethods.genreSearch("sad", userGenre)

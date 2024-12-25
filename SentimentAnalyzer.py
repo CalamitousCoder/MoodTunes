@@ -77,6 +77,7 @@ hateful = SpecialFeelings("hateful", "rage")
 lovesick = SpecialFeelings("lovesick", "romantic")
 romantic = SpecialFeelings("romantic", "romantic")
 heartbroken = SpecialFeelings("heartbroken", "heartbroken")
+gay = SpecialFeelings("gay", "despair")
 
 smug = SpecialFeelings("smug", "smug")
 
