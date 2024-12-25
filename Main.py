@@ -3,8 +3,6 @@ import Utils
 import SentimentAnalyzer
 import SpotifyMethods
 import streamlit as st
-from textblob import TextBlob
-import streamlit as st
 
 st.set_page_config(page_title="Vibe Checker", layout="centered")
 def main():
@@ -41,7 +39,7 @@ def main():
     st.markdown('<div class="center-box" id="vibe-section">', unsafe_allow_html=True)
 
     # Display the image in the center
-    st.image("BoomBoxBros.webp", caption=None, use_container_width=True)
+    st.image("BoomBoxBros.gif", caption=None, use_container_width=True)
 
     # Content box for text and inputs
     st.markdown('<div class="content-box">', unsafe_allow_html=True)
