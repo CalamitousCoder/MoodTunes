@@ -20,8 +20,8 @@ def main():
 
     print("List a genre of music you'd like to hear")
     Utils.printAndSleep("If you have no preference type any", 2)
-    userResponse = input()
-    hasPreference = userResponse.lower() != "any" 
+    userGenre = input()
+    hasPreference = userGenre.lower() != "any" 
 
     Utils.printAndSleep("Would you like to:",2)
    
@@ -42,7 +42,7 @@ def main():
         print("Handle case IV here.")
       case 'const':
         if hasPreference:
-            print("Handle case 'const' with preference.")
+            SpotifyMethods.genreSearch(currVibe, userGenre)
         else:
             SpotifyMethods.genericSearch(currVibe)
       case 'bal':

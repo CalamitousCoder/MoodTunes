@@ -8,36 +8,64 @@ clientSecret = '18331dc1fe41432b94a1af96eb76db1b'
 client_credentials_manager = SpotifyClientCredentials(client_id=clientId, client_secret=clientSecret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-
-query = vibe + " music"  # Assuming you want to append ' music' to the vibe
-print("I searched:", query)
-
+def genericSearch(vibe):
+    query = vibe + " music"
+    results = sp.search(query, limit= 15, type='playlist')  # Increase limit to allow skipping
+    
+    # Ensure the 'items' list is not empty
+    if results['playlists']['items']:
+        for playlist in results['playlists']['items']:
+            # Ensure the playlist object is valid
+            if playlist:
+                owner_name = playlist['owner'].get('display_name', '').lower()
+                
+                # Skip if the playlist is owned by Spotify
+                if owner_name == "spotify":
+                    continue
+                
+                playlist_name = playlist.get('name', 'Unknown Playlist')
+                playlist_id = playlist.get('id', None)
+                
+                if playlist_id:
+                    print(f"Playlist Name: {playlist_name}")
+                    print(f"Playlist URL: https://open.spotify.com/playlist/{playlist_id}")
+                    return  # Exit after finding a valid playlist
+                else:
+                    print("Playlist found, but missing an ID.")
+            else:
+                  print(f"No suitable playlists found for '{query}'.")
+    else:
+        print(f"Sorry, I couldn't find any playlists for '{query}'.")
+def genreSearch(vibe, genre):
     # Perform the search with 'playlist' type
-results = sp.search(q=query, type='playlist', limit=5)  # Use Spotipy here
-
-    # Debug: print the search results to see its structure
-print("Search Results:", results)
+    search_query = f"{vibe} {genre} music"
+    results = sp.search(q=search_query, type='playlist', limit=15)
 
     # Check if the 'playlists' key exists and contains items
-if 'playlists' in results and 'items' in results['playlists']:
+    if 'playlists' in results and 'items' in results['playlists']:
         playlists = results['playlists']['items']
         if playlists:
-            # Print the first playlist's name and link
-            playlist = playlists[0]
-            print(f"Playlist Name: {playlist['name']}")
-            print(f"Playlist URL: https://open.spotify.com/playlist/{playlist['id']}")
-            
-            # Fetch tracks from the playlist
-            tracks = sp.playlist_tracks(playlist['id'])
-            
-            # Check and print the artist names for the first few tracks
-            for track in tracks['items']:
-                track_info = track.get('track')  # Safely get the track object
-                if track_info and track_info.get('artists'):  # Ensure both track and artists exist
-                    print(f"Artist Name: {track_info['artists'][0]['name']}")
+            # Iterate through the playlists and filter out those owned by Spotify
+            for playlist in playlists:
+                # Skip if playlist is None
+                if playlist is None:
+                    continue
+                
+                # Ensure the 'owner' key exists and is not None
+                owner = playlist.get('owner', None)
+                if owner and owner.get('display_name', '').lower() == 'spotify':
+                    continue  # Skip this playlist if the owner is Spotify
+
+                playlist_name = playlist.get('name', 'Unknown Playlist')
+                playlist_id = playlist.get('id', None)
+
+                if playlist_id:
+                    print(f"Playlist Name: {playlist_name}")
+                    print(f"Playlist URL: https://open.spotify.com/playlist/{playlist_id}")
+                    return  # Exit after printing the first valid playlist
                 else:
-                    print("Track or artist data missing")
+                    print("Playlist found, but missing an ID.")
         else:
             print("No playlists found.")
-else:
+    else:
         print("Invalid search results, no playlists key found.")
