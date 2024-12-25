@@ -1,4 +1,4 @@
-import time
-def printAndSleep(message, time):
+import time as builtin_time
+def printAndSleep(message, sec):
     print(message)
-    time.sleep(time)
+    builtin_time.sleep(sec)

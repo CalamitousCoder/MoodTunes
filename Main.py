@@ -1,3 +1,4 @@
+import time as builtin_time
 import Utils
 import SentimentAnalyzer
 import SpotifyMethods
@@ -17,15 +18,10 @@ def main():
     
     print(" I got your vibe was " +  currVibe)
 
-   # need textBlob stuff
-
-    Utils.printAndSleep("List a genre of music you'd like to hear")
-    Utils.printAndSleep("If you have no preference type any")
-    unsortedGenres = input()
-    wordsList = SentimentAnalyzer.getWords(unsortedGenres)
-    preferredGenre = Sp
-
-    # need to add tokenizer
+    print("List a genre of music you'd like to hear")
+    Utils.printAndSleep("If you have no preference type any", 2)
+    userResponse = input()
+    hasPreference = userResponse.lower() != "any" 
 
     Utils.printAndSleep("Would you like to:",2)
    
@@ -33,22 +29,26 @@ def main():
     desiredMood = 'IV'
     Utils.printAndSleep("\t Keep Vibe Going", 1)
     desiredMood = 'const'
-    Utils.printAndSleepprint("\t Balance Mood", 1)
+    Utils.printAndSleep("\t Balance Mood", 1)
     desiredMood = 'bal'
     Utils.printAndSleep("\t Gradually Shift Mood",1)
     desiredMood = 'shift'
     Utils.printAndSleep("\t Feel Whiplash",1)
     desiredMood = 'whip'
+    answer = input()
 
-    match desiredMood:
-       case 'IV':
-          print
-       case 'const':
-          fdfd
-       case 'bal':
-          fdgd
-       case 'shift':
-          fdgd
-       case 'whip':
-          fgdg
+    match answer:
+      case 'IV':
+        print("Handle case IV here.")
+      case 'const':
+        if hasPreference:
+            print("Handle case 'const' with preference.")
+        else:
+            SpotifyMethods.genericSearch(currVibe)
+      case 'bal':
+        print("Handle case 'bal' here.")
+      case 'shift':
+        print("Handle case 'shift' here.")
+      case 'whip':
+        print("Handle case 'whip' here.")
 if __name__ == "__main__": main()
