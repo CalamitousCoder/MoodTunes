@@ -1,30 +1,30 @@
-import time
-import spotipy
 import Utils
 import SentimentAnalyzer
+import SpotifyMethods
 
-from spotipy.oauth2 import SpotifyClientCredentials
-
-
-# Set up Spotify authentication
-clientId = '1f6e1c1b2ec54efc9d8fb0e4df9e8d91'
-clientSecret = '18331dc1fe41432b94a1af96eb76db1b' 
-client_credentials_manager = SpotifyClientCredentials(client_id=clientId, client_secret=clientSecret)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 def main():
- while 0==0:
-     print("What's you're vibe right now?")
-     currVibe = input()
-     currVibe = SentimentAnalyzer.vibeChecker(currVibe)
+    print("What's you're vibe right now?")
+    currVibe = input()
+    wordsList = SentimentAnalyzer.getWords(currVibe)
+    areOutliers, particFeeling = SentimentAnalyzer.findOutlierFeelings(wordsList)
     
-     print(" I got your vibe was " +  currVibe)
+    if(not areOutliers):
+      currVibe = SentimentAnalyzer.vibeChecker(currVibe)
+      print("not an outlier the feeling")
+    else:
+       currVibe = particFeeling
+    
+    print(" I got your vibe was " +  currVibe)
 
-"""
-    ## need textBlob stuff
+   # need textBlob stuff
 
-    Utils.printAndSleep("What genres of music are in the mood to hear")
-    unsortedResponse = input()
+    Utils.printAndSleep("List a genre of music you'd like to hear")
+    Utils.printAndSleep("If you have no preference type any")
+    unsortedGenres = input()
+    wordsList = SentimentAnalyzer.getWords(unsortedGenres)
+    preferredGenre = Sp
+
     # need to add tokenizer
 
     Utils.printAndSleep("Would you like to:",2)
@@ -39,5 +39,16 @@ def main():
     desiredMood = 'shift'
     Utils.printAndSleep("\t Feel Whiplash",1)
     desiredMood = 'whip'
-"""
+
+    match desiredMood:
+       case 'IV':
+          print
+       case 'const':
+          fdfd
+       case 'bal':
+          fdgd
+       case 'shift':
+          fdgd
+       case 'whip':
+          fgdg
 if __name__ == "__main__": main()
