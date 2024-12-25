@@ -1,14 +1,13 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-from spotipy.exceptions import SpotifyException
 
-# Set up Spotify authentication
-clientId = '1f6e1c1b2ec54efc9d8fb0e4df9e8d91'
-clientSecret = '18331dc1fe41432b94a1af96eb76db1b' 
-client_credentials_manager = SpotifyClientCredentials(client_id=clientId, client_secret=clientSecret)
+client_id = 'your_client_id'
+client_secret = 'your_client_secret'
+
+client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-def genericSearch(vibe):
+def basicSearch(vibe):
     query = vibe + " music"
     results = sp.search(query, limit= 15, type='playlist')  # Increase limit to allow skipping
     
@@ -27,9 +26,8 @@ def genericSearch(vibe):
                 playlist_id = playlist.get('id', None)
                 
                 if playlist_id:
-                    print(f"Playlist Name: {playlist_name}")
-                    print(f"Playlist URL: https://open.spotify.com/playlist/{playlist_id}")
-                    return  # Exit after finding a valid playlist
+                    
+                    return playlist_name, f"Playlist URL: https://open.spotify.com/playlist/{playlist_id}"
                 else:
                     print("Playlist found, but missing an ID.")
             else:
@@ -60,9 +58,8 @@ def genreSearch(vibe, genre):
                 playlist_id = playlist.get('id', None)
 
                 if playlist_id:
-                    print(f"Playlist Name: {playlist_name}")
-                    print(f"Playlist URL: https://open.spotify.com/playlist/{playlist_id}")
-                    return  # Exit after printing the first valid playlist
+                     # Exit after printing the first valid playlist
+                    return playlist_name, f"Playlist URL: https://open.spotify.com/playlist/{playlist_id}"
                 else:
                     print("Playlist found, but missing an ID.")
         else:

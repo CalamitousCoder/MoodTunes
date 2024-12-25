@@ -10,7 +10,7 @@ st.write("Hello, World!")
 
 
 def main():
-    st.write("What's you're vibe right now?")
+    print("What's you're vibe right now?")
     currVibe = input()
     wordsList = SentimentAnalyzer.getWords(currVibe)
     areOutliers, particFeeling = SentimentAnalyzer.findOutlierFeelings(wordsList)

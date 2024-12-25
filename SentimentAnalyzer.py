@@ -18,16 +18,20 @@ def vibeChecker(userVibe):
     calcCertainty = userBlob.subjectivity
     
     if calcCertainty < .5:
-        
-        clarifier = input()
-        clariBlob = TextBlob(clarifier + ' ' + userVibe)
-        
-        newCertainty = clariBlob.subjectivity
-        calcVibe = clariBlob.polarity
+        return False, userVibe, "Could you elaborate just a bit more on your mode \n Just a few more words or a sentence will suffice"
+    else:
+      return True, convertVibeToString(calcVibe), "null"
 
-        if newCertainty < .5:
-            print("hmm, ok. I think I got it.")
-    return convertVibeToString(calcVibe)
+def clarifyVibe(userSpecification, ogStatement):
+    clariBlob = TextBlob(userSpecification + ' ' + ogStatement)
+
+    newCertainty = clariBlob.subjectivity
+    newCalcVibe = clariBlob.polarity
+
+    if newCertainty < .5:
+        return "hmm, ok. I think I got it.", convertVibeToString(newCalcVibe)
+    else:
+        return "Gotcha!", convertVibeToString(newCalcVibe)
 
 def convertVibeToString(num: float) -> str:
     if num <= -0.7:  # Despair: [-1, -0.7]

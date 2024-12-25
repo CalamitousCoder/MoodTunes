@@ -3,7 +3,6 @@ import Utils
 import SentimentAnalyzer
 import SpotifyMethods
 import streamlit as st
-
 st.set_page_config(page_title="Vibe Checker", layout="centered")
 def main():
     # CSS for styling the container
@@ -45,12 +44,133 @@ def main():
     st.markdown('<div class="content-box">', unsafe_allow_html=True)
     
     # Add text and input elements
-    st.write("### What’s your vibe right now?")
-    currVibe = st.text_input("Describe your vibe:")
+st.write("### What’s your vibe right now?")
+currVibe = st.text_input("Describe your vibe:")
 
-    if currVibe:
-        st.write(f"You described your vibe as: **{currVibe}**")
+    # Initialize variables
+hasPreference = False
+answer = None  # Initialize answer as None
 
+if currVibe:
+        # Integrating the backend logic for analyzing vibe
+        wordsList = SentimentAnalyzer.getWords(currVibe)
+        areOutliers, particFeeling = SentimentAnalyzer.findOutlierFeelings(wordsList)
 
-if __name__ == "__main__":
-    main()
+        if not areOutliers:
+            # If not an outlier, process normally
+            isCertain, currVibe, clarityMessage = SentimentAnalyzer.vibeChecker(currVibe)
+            if(not isCertain ):
+                extraInfo = st.text_input(clarityMessage)
+
+                clarityMessage2, currVibe = SentimentAnalyzer.clarifyVibe(extraInfo,currVibe)
+            st.write(f"Your vibe has been categorized as: **{currVibe}**")
+        else:
+            # Handle outlier feelings
+            currVibe = particFeeling
+            st.write(f"Your vibe seems to be an outlier, interpreted as: **{currVibe}**")
+
+        # Display the final result
+        st.write(f"I got your vibe as: **{currVibe}**")
+        currGoodVibes = currVibe == "happy" or currVibe == "upbeat"
+        currBadVibes = True if not currGoodVibes else False
+
+        # Ask for music genre preference
+        st.write(f"List a genre of music you'd like to hear")
+        userGenre = st.text_input("If you have no preference type 'any'")
+
+        # Check if user has a preference
+        hasPreference = userGenre.lower() != "any"
+
+        # Create a selectbox for user to choose an option
+        answer = st.selectbox(
+            'Would you like to:',
+            ['Intensify Vibe', 'Keep Vibe Going', 'Balance Mood', 'Gradually Shift Mood', 'Feel Whiplash']
+        )
+
+        # Handle the selected option only if answer is not None
+        if answer and not areOutliers:
+            match answer:
+                case 'Intensify Vibe':
+                    if hasPreference:
+                         if(currGoodVibes):
+                            playListName, playlistUrl, =  SpotifyMethods.genreSearch("ultimate feel good rap", userGenre)
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                         else:
+                            playListName, playlistUrl, =  SpotifyMethods.genreSearch("super depressing", userGenre)
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                             
+                    else:
+                        if(currGoodVibes):
+                            playListName, playlistUrl, =  SpotifyMethods.basicSearch("ultimate feel good")
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                        else:
+                            playListName, playlistUrl, =  SpotifyMethods.basicSearch("super depressing")
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+
+                case 'Keep Vibe Going':
+                    if hasPreference:
+                        playListName, playlistUrl, =  SpotifyMethods.genreSearch(currVibe, userGenre)
+                        st.write("We think you'll like this playlist: " + playListName)
+                        st.write(playlistUrl)
+                    else:
+                        playListName, playlistUrl, =  SpotifyMethods.basicSearch(currVibe)
+                        st.write("We think you'll like this playlist: " + playListName)
+                        st.write(playlistUrl)
+                case 'Balance Mood':
+                    if hasPreference:
+                        playListName, playlistUrl, =  SpotifyMethods.genreSearch("chill", userGenre)
+                        st.write("We think you'll like this playlist: " + playListName)
+                        st.write(playlistUrl)
+                    else:
+                        playListName, playlistUrl, =  SpotifyMethods.basicSearch("chill")
+                        st.write("We think you'll like this playlist: " + playListName)
+                        st.write(playlistUrl)
+                case 'Shake things up a little':
+                    if hasPreference:
+                         if(currGoodVibes):
+                            playListName, playlistUrl, =  SpotifyMethods.genreSearch("sad", userGenre)
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                         else:
+                            playListName, playlistUrl, =  SpotifyMethods.genreSearch("happy", userGenre)
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                             
+                    else:
+                        if(currGoodVibes):
+                            playListName, playlistUrl, =  SpotifyMethods.basicSearch("sad")
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                        else:
+                            playListName, playlistUrl, =  SpotifyMethods.basicSearch("happy")
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                    
+                case 'Feel Whiplash':
+                    if hasPreference:
+                         if(not currGoodVibes):
+                            playListName, playlistUrl, =  SpotifyMethods.genreSearch("ultimate feel good", userGenre)
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                         else:
+                            playListName, playlistUrl, =  SpotifyMethods.genreSearch("super depressing", userGenre)
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                             
+                    else:
+                        if(not currGoodVibes):
+                            playListName, playlistUrl, =  SpotifyMethods.basicSearch("ultimate feel good")
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)
+                        else:
+                            playListName, playlistUrl, =  SpotifyMethods.basicSearch("super depressing")
+                            st.write("We think you'll like this playlist: " + playListName)
+                            st.write(playlistUrl)                   
+
+st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+if __name__ == "__main__": main() 
