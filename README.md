@@ -17,23 +17,12 @@ TextBlob and NLTK: These libraries are used for natural language processing task
 
 ## Notable Classes
 
-### CheckVibe
+### SentimientAnlyasis
 
 This class processes the user input, performing sentiment analysis using TextBlob or NLTK to determine the user’s mood. It’s key in categorizing the mood into a scale that helps in playlist generation.
 
-### OutlierHandler
 
-Responsible for checking if the user input contains any outlier phrases (those that the current sentiment analysis model doesn't handle well). This class will be further developed to handle more complex or nuanced emotional responses.
-
-### PlaylistGenerator
-
-This class interfaces with the Spotify API to generate a playlist based on the user’s genre preference and mood. It ensures that the app can fetch relevant tracks from Spotify’s catalog based on sentiment analysis.
-
-### UserPreferenceManager
-
-This handles the storage and retrieval of user preferences, specifically their chosen mood and genre. It ensures that these preferences are used correctly to provide an accurate playlist.
-
-### SpotifyAPI
+### SpotifyMethods
 A class that handles all interactions with the Spotify API, including authentication, fetching track recommendations, and dealing with any API rate limits.
 
 ## Methods
@@ -41,15 +30,11 @@ A class that handles all interactions with the Spotify API, including authentica
 
 Uses sentiment analysis to rate the user's mood. It breaks down the input text to understand positive, negative, or neutral sentiments, allowing the app to tailor the playlist accordingly.
 
-### tokenizeAndCheckOutliers
+### findOutlierFeelings
 
 Tokenizes the user's input to detect any unusual or outlier words that might confuse the AI. The method is essential for refining the mood detection accuracy and improving the user experience.
 
-### authenticateSpotifyAPI
-
-Manages the authentication flow to ensure that the app can interact with Spotify. This is particularly important for limiting access to users while the app is in the development phase.
-
-### generatePlaylist
+### genreSearch
 
 Fetches personalized playlist recommendations based on the user's mood and genre preference. It ensures that Spotify's API is used efficiently and delivers relevant content.
 
