@@ -5,43 +5,22 @@ import streamlit as st
 ## to do handle outliers and pretty up with comments
 st.set_page_config(page_title="Vibe Checker", layout="centered")
 def main():
-    # CSS for styling the container
-    st.markdown(
-        """
-        <style>
-        /* Reduce margins for the whole page */
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        /* Main container */
-        .center-box {
-        }
-        .content-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        /* Styling for the bottom box */
-        .bottom-box {
-            height: 100vh;
-            text-align: center;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+   # Load custom CSS
+    with open("styles.css", "r") as css_file:
+        st.markdown(f"<style>{css_file.read()}</style>", unsafe_allow_html=True)
 
-    # Main container with image and text elements
-    st.markdown('<div class="center-box" id="vibe-section">', unsafe_allow_html=True)
+    # Load HTML structure
+    with open("layout.html", "r") as html_file:
+        html_content = html_file.read()
 
-    # Display the image in the center
-    st.image("BoomBoxBros.gif", caption=None, use_container_width=True)
+    # Replace the placeholder in HTML content with a custom class (no image)
+    updated_html = html_content.replace("<!-- IMAGE_PLACEHOLDER -->", '<div class="image-placeholder"></div>')
 
-    # Content box for text and inputs
-    st.markdown('<div class="content-box">', unsafe_allow_html=True)
+    # Render the rest of the HTML content
+    st.markdown(updated_html, unsafe_allow_html=True)
+
+    # Render the GIF using st.image, outside the HTML part
+    st.image("BoomBoxBros.gif", use_container_width=True)
     
     # Add text and input elements
 st.write("### What’s your vibe right now?")
