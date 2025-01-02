@@ -42,14 +42,14 @@ if currVibe:
                 extraInfo = st.text_input(clarityMessage)
 
                 clarityMessage2, currVibe = SentimentAnalyzer.clarifyVibe(extraInfo,currVibe)
-            st.write(f"Your vibe has been categorized as: **{currVibe}**")
+            # st.write(f"Your vibe has been categorized as: **{currVibe}**")
         else:
             # Handle outlier feelings
             currVibe = particFeeling
             st.write(f"Your vibe seems to be an outlier, interpreted as: **{currVibe}**")
 
         # Display the final result
-        st.write(f"I got your vibe as: **{currVibe}**")
+        # st.write(f"I got your vibe as: **{currVibe}**")
         currGoodVibes = currVibe == "happy" or currVibe == "upbeat"
         currBadVibes = True if not currGoodVibes else False
 
